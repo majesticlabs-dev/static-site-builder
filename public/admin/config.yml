@@ -1,0 +1,82 @@
+# Decap CMS Configuration
+# Docs: https://decapcms.org/docs/configuration-options/
+
+# Backend configuration
+backend:
+  name: git-gateway
+  branch: master
+  # Uncomment for GitHub backend instead of git-gateway
+  # name: github
+  # repo: your-username/your-repo
+  # branch: master
+  # base_url: https://your-site.pages.dev
+  # auth_endpoint: /api/auth
+
+# Local development - automatically ignored in production
+local_backend: true
+
+# Media files configuration
+media_folder: public/images
+public_folder: /images
+
+# Site URL (update before deploying)
+site_url: https://your-site.pages.dev
+display_url: https://your-site.pages.dev
+
+# Editorial workflow for draft/review/publish
+publish_mode: editorial_workflow
+
+# Slug settings
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# Collections
+collections:
+  # Blog posts
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "blog/{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
+      - { label: "Updated Date", name: "updatedDate", widget: "datetime", required: false }
+      - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  # Static pages
+  - name: "pages"
+    label: "Pages"
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  # Site settings (single file)
+  # Note: Decap saves as object, but Astro file loader expects array format
+  # The general.json must be an array with id field: [{ "id": "general", ... }]
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "src/content/settings/general.json"
+        fields:
+          - { label: "Site Title", name: "siteTitle", widget: "string" }
+          - { label: "Site Description", name: "siteDescription", widget: "text" }
+          - { label: "Logo", name: "logo", widget: "image", required: false }
+          - { label: "Social Links", name: "socialLinks", widget: "list", fields: [
+              { label: "Platform", name: "platform", widget: "string" },
+              { label: "URL", name: "url", widget: "string" }
+            ]}
+        # Important: After editing in CMS, you may need to manually wrap in array format

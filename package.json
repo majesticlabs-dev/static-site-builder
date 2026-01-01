@@ -1,0 +1,27 @@
+{
+  "name": "static-builder",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "dev:cms": "npx decap-server & astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/cloudflare": "^12.2.0",
+    "@astrojs/mdx": "^4.0.2",
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.1.1",
+    "sharp": "^0.34.5",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251231.0",
+    "decap-server": "^3.1.5",
+    "wrangler": "^3.99.0"
+  }
+}

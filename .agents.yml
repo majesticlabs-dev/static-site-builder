@@ -1,0 +1,48 @@
+# Static Builder - Agent Configuration
+# Machine-readable config for AI agents
+
+project:
+  name: static-builder
+  status: development
+  description: Static site generator with Astro, Decap CMS, and Cloudflare Pages
+
+tech_stack:
+  type: node
+  node_version: "24"
+  typescript: true
+  framework: astro
+  styling: css
+  package_manager: bun
+  deployment:
+    - cloudflare
+
+testing:
+  unit: vitest
+  e2e: playwright
+  commands:
+    test: bun test
+    test_unit: bun run test:unit
+    test_e2e: bun run test:e2e
+
+git:
+  default_branch: master
+  workflow: branches
+  branch_pattern: "feature/{description}"
+
+tasks:
+  backend: github_issues
+  repo: majesticlabs-dev/static-builder
+
+toolbox:
+  build_task:
+    lint_command: bun run build
+    # design_system_path: docs/design-system.md
+
+quality_gate:
+  review_topics_path: docs/agents/review-topics.md
+  reviewers:
+    - security
+    - accessibility
+
+# browser:
+#   type: chrome  # chrome, brave, edge
