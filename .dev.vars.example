@@ -3,3 +3,8 @@
 
 GITHUB_CLIENT_ID=your_github_client_id
 GITHUB_CLIENT_SECRET=your_github_client_secret
+
+# Optional: temporary site protection during review
+# Basic Auth is enabled automatically when both vars are present
+BASIC_AUTH_USERNAME=reviewer
+BASIC_AUTH_PASSWORD=change_me

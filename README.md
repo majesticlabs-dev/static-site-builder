@@ -44,6 +44,8 @@ In Cloudflare Pages dashboard → Settings → Environment variables:
 |----------|-------|
 | `GITHUB_CLIENT_ID` | Your GitHub OAuth Client ID |
 | `GITHUB_CLIENT_SECRET` | Your GitHub OAuth Client Secret |
+| `BASIC_AUTH_USERNAME` | Review username (optional; enables Basic Auth only when paired with password) |
+| `BASIC_AUTH_PASSWORD` | Review password (optional; enables Basic Auth only when paired with username) |
 
 ### 4. Update Configuration
 
@@ -59,6 +61,29 @@ backend:
 
 site_url: https://your-site.pages.dev
 ```
+
+### Temporary Review Protection (Basic Auth)
+
+Use this when you want the entire site blocked behind a username/password during review.
+
+1. In Cloudflare Pages, open your project and go to **Settings → Environment variables**.
+2. Set:
+   - `BASIC_AUTH_USERNAME=<review-username>`
+   - `BASIC_AUTH_PASSWORD=<strong-random-password>`
+3. Redeploy (or trigger a new deployment) so the function reads the new values.
+
+Verify protection is active:
+
+```bash
+curl -I https://your-site.pages.dev
+```
+
+You should see `401 Unauthorized` and a `WWW-Authenticate: Basic ...` header when not authenticated.
+
+After review, remove the gate:
+
+1. Delete either `BASIC_AUTH_USERNAME` or `BASIC_AUTH_PASSWORD` (or both).
+2. Redeploy again.
 
 ## Project Structure
 
