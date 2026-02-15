@@ -65,13 +65,27 @@ site_url: https://your-site.pages.dev
 
 ### Temporary Review Protection (Basic Auth)
 
-To temporarily lock the whole site during review, set:
+Use this when you want the entire site blocked behind a username/password during review.
 
-- `BASIC_AUTH_ENABLED=true`
-- `BASIC_AUTH_USERNAME=<your-username>`
-- `BASIC_AUTH_PASSWORD=<your-password>`
+1. In Cloudflare Pages, open your project and go to **Settings → Environment variables**.
+2. Set:
+   - `BASIC_AUTH_ENABLED=true`
+   - `BASIC_AUTH_USERNAME=<review-username>`
+   - `BASIC_AUTH_PASSWORD=<strong-random-password>`
+3. Redeploy (or trigger a new deployment) so the function reads the new values.
 
-When review is complete, disable it by setting `BASIC_AUTH_ENABLED=false` (or removing the variable).
+Verify protection is active:
+
+```bash
+curl -I https://your-site.pages.dev
+```
+
+You should see `401 Unauthorized` and a `WWW-Authenticate: Basic ...` header when not authenticated.
+
+After review, remove the gate:
+
+1. Set `BASIC_AUTH_ENABLED=false` (or delete the variable).
+2. Redeploy again.
 
 ## Project Structure
 
