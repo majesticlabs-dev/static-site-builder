@@ -1,16 +1,9 @@
 interface Env {
-  BASIC_AUTH_ENABLED?: string;
   BASIC_AUTH_USERNAME?: string;
   BASIC_AUTH_PASSWORD?: string;
 }
 
-const ENABLED_VALUES = new Set(['1', 'true', 'yes', 'on']);
 const AUTH_REALM = 'Review Access';
-
-function isBasicAuthEnabled(env: Env): boolean {
-  const value = env.BASIC_AUTH_ENABLED?.trim().toLowerCase();
-  return value !== undefined && ENABLED_VALUES.has(value);
-}
 
 function unauthorized(): Response {
   return new Response('Authentication required', {
@@ -51,14 +44,16 @@ function parseBasicAuthHeader(authHeader: string | null): { username: string; pa
 
 export const onRequest: PagesFunction<Env> = async (context: EventContext<Env, string, unknown>) => {
   const { request, env } = context;
+  const hasUsername = Boolean(env.BASIC_AUTH_USERNAME);
+  const hasPassword = Boolean(env.BASIC_AUTH_PASSWORD);
 
-  if (!isBasicAuthEnabled(env)) {
+  if (!hasUsername && !hasPassword) {
     return context.next();
   }
 
-  if (!env.BASIC_AUTH_USERNAME || !env.BASIC_AUTH_PASSWORD) {
+  if (!hasUsername || !hasPassword) {
     return new Response(
-      'Basic auth is enabled but BASIC_AUTH_USERNAME or BASIC_AUTH_PASSWORD is not configured.',
+      'Basic auth requires both BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD.',
       { status: 500 }
     );
   }
