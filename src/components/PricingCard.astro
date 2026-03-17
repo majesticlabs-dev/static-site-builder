@@ -1,0 +1,15 @@
+---
+interface Props {
+  title: string;
+  price: string;
+  detail: string;
+}
+
+const { title, price, detail } = Astro.props;
+---
+
+<article class="pricing-card">
+  <p class="pricing-tier">{title}</p>
+  <p class="pricing-price">{price}</p>
+  <p class="pricing-detail">{detail}</p>
+</article>

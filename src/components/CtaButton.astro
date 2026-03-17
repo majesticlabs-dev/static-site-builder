@@ -1,0 +1,11 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  variant?: 'primary' | 'secondary';
+}
+
+const { href, label, variant = 'primary' } = Astro.props;
+---
+
+<a href={href} class={`cta-button ${variant === 'secondary' ? 'is-secondary' : ''}`.trim()}>{label}</a>

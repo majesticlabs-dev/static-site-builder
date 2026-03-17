@@ -1,63 +1,109 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const posts = (await getCollection('blog'))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+import MarketingSection from '../components/MarketingSection.astro';
+import CtaButton from '../components/CtaButton.astro';
+import PricingCard from '../components/PricingCard.astro';
 ---
 
-<BaseLayout title="Home">
-  <section class="hero">
-    <h1>Welcome to My Site</h1>
-    <p>A fast, modern static site built with Astro, Decap CMS, and Cloudflare Pages.</p>
-  </section>
-
-  <section class="recent-posts">
-    <h2>Recent Posts</h2>
-    <div class="blog-list">
-      {posts.map((post) => (
-        <article class="blog-card">
-          <p class="date">
-            {post.data.pubDate.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
-          </p>
-          <h2>
-            <a href={`/blog/${post.id}`}>{post.data.title}</a>
-          </h2>
-          <p class="description">{post.data.description}</p>
-        </article>
-      ))}
-    </div>
-    <p style="margin-top: 2rem;">
-      <a href="/blog">View all posts →</a>
+<BaseLayout
+  title="Busy-Season Workflow Kit"
+  description="Install Claude as a safe junior coworker in your CPA firm with practical workflows, prompts, and guardrails."
+>
+  <section class="hero-card">
+    <p class="eyebrow">Claude Cowork for CPAs</p>
+    <h1>Install Claude as a safe junior coworker in your CPA firm.</h1>
+    <p class="hero-lead">
+      Save 5-10 hours a week during busy season with copy/paste workflows, review checklists,
+      confidentiality guardrails, and templates your team can use this afternoon.
     </p>
+    <div class="hero-actions">
+      <CtaButton href="/gumroad-copy" label="Get the Busy-Season Workflow Kit" />
+      <CtaButton href="/quickstart-pack" label="Start with the Free Quickstart Pack" variant="secondary" />
+    </div>
+    <p class="micro-proof">Not another AI webinar. Not generic prompt sludge. A practical operating kit for small CPA firms.</p>
   </section>
+
+  <MarketingSection
+    eyebrow="The Real Problem"
+    title="Most firms are already using AI. They are just using it badly."
+    intro="The issue is not whether AI belongs in a CPA firm. The issue is whether it is used like a sharp tool or a loaded nail gun."
+  >
+    <ul class="check-list">
+      <li>Staff pasting into Claude with zero consistency</li>
+      <li>Weak prompts that create fluff instead of useful drafts</li>
+      <li>No review standard or clear safety rules</li>
+      <li>Too much time burned on repetitive client communication and handoff cleanup</li>
+    </ul>
+  </MarketingSection>
+
+  <MarketingSection
+    eyebrow="What You Get"
+    title="A complete busy-season workflow kit"
+    intro="Built for solo CPAs, small firms, and owner-operators who need immediate throughput relief."
+  >
+    <div class="feature-grid">
+      <article>
+        <h3>Busy-Season Workflow Playbook</h3>
+        <p>Where Claude helps, where it does not, and how to roll it out without chaos.</p>
+      </article>
+      <article>
+        <h3>25 Copy/Paste CPA Prompts</h3>
+        <p>Prompts for client emails, missing-doc requests, recap cleanup, handoffs, and issue summaries.</p>
+      </article>
+      <article>
+        <h3>CPA-Safe Usage Rules</h3>
+        <p>Simple rules for anonymization, safe handling, and what must never go client-facing without review.</p>
+      </article>
+      <article>
+        <h3>Human Review Checklist</h3>
+        <p>A quick quality layer so output is clean, accurate, and usable before it reaches clients.</p>
+      </article>
+      <article>
+        <h3>Red / Yellow / Green Guide</h3>
+        <p>A decision framework for what Claude is good for, risky for, and absolutely not for.</p>
+      </article>
+      <article>
+        <h3>One-Hour Rollout Plan</h3>
+        <p>Pilot with one team member, tighten the process, and scale with fewer mistakes.</p>
+      </article>
+    </div>
+  </MarketingSection>
+
+  <MarketingSection
+    eyebrow="Transformation"
+    title="What changes after rollout"
+  >
+    <div class="before-after">
+      <article>
+        <h3>Before</h3>
+        <ul>
+          <li>Long delays on client email drafts</li>
+          <li>Manual cleanup of messy notes and partner feedback</li>
+          <li>Inconsistent AI usage with confidentiality risk</li>
+        </ul>
+      </article>
+      <article>
+        <h3>After</h3>
+        <ul>
+          <li>Faster first drafts and cleaner handoffs</li>
+          <li>More consistent client communication</li>
+          <li>A safer AI standard with human judgment in charge</li>
+        </ul>
+      </article>
+    </div>
+  </MarketingSection>
+
+  <MarketingSection
+    eyebrow="Pricing"
+    title="One-time purchase. No subscription."
+    intro="Buy once and implement the same week."
+  >
+    <div class="pricing-grid">
+      <PricingCard title="Founder Price" price="$99" detail="First 20 buyers" />
+      <PricingCard title="Launch Price" price="$149" detail="After founder spots are claimed" />
+    </div>
+    <div class="final-cta">
+      <CtaButton href="/gumroad-copy" label="Get the Busy-Season Workflow Kit" />
+    </div>
+  </MarketingSection>
 </BaseLayout>
-
-<style>
-  .hero {
-    text-align: center;
-    padding: 4rem 0;
-    margin-bottom: 3rem;
-    border-bottom: 1px solid #eee;
-  }
-
-  .hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-
-  .hero p {
-    font-size: 1.25rem;
-    color: #666;
-  }
-
-  .recent-posts h2 {
-    margin-bottom: 1.5rem;
-  }
-</style>

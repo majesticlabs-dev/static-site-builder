@@ -1,17 +1,17 @@
 [
   {
     "id": "general",
-    "siteTitle": "My Static Site",
-    "siteDescription": "A fast, modern static site built with Astro and Decap CMS",
+    "siteTitle": "Claude Cowork for CPAs",
+    "siteDescription": "Practical busy-season Claude workflows for solo CPAs and small firms.",
     "logo": null,
     "socialLinks": [
       {
-        "platform": "GitHub",
-        "url": "https://github.com"
+        "platform": "Product",
+        "url": "/"
       },
       {
-        "platform": "Twitter",
-        "url": "https://twitter.com"
+        "platform": "Free Quickstart Pack",
+        "url": "/quickstart-pack"
       }
     ]
   }

@@ -1,12 +1,19 @@
 ---
 import '../styles/global.css';
+import settings from '../content/settings/general.json';
 
 interface Props {
-  title: string;
+  title?: string;
   description?: string;
 }
 
-const { title, description = 'A static site built with Astro' } = Astro.props;
+const site = settings[0];
+const {
+  title = site.siteTitle,
+  description = site.siteDescription,
+} = Astro.props;
+
+const pageTitle = title === site.siteTitle ? title : `${title} | ${site.siteTitle}`;
 ---
 
 <!doctype html>
@@ -17,24 +24,29 @@ const { title, description = 'A static site built with Astro' } = Astro.props;
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
   </head>
   <body>
-    <header>
-      <nav>
-        <a href="/" class="logo">My Site</a>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="/about">About</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer>
-      <p>&copy; {new Date().getFullYear()} My Site. Built with Astro.</p>
-    </footer>
+    <div class="site-shell">
+      <header class="site-header">
+        <nav class="site-nav container">
+          <a href="/" class="site-logo">Claude Cowork for CPAs</a>
+          <ul>
+            <li><a href="/">Product</a></li>
+            <li><a href="/quickstart-pack">Free Quickstart Pack</a></li>
+            <li><a href="/gumroad-copy">Gumroad Copy</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main class="container">
+        <slot />
+      </main>
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <p>&copy; {new Date().getFullYear()} Claude Cowork for CPAs.</p>
+          <p class="footer-note">Use Claude like a junior coworker, not a final authority.</p>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
