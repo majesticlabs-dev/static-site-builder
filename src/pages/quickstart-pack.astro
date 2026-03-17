@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MarketingSection from '../components/MarketingSection.astro';
+import CtaButton from '../components/CtaButton.astro';
+---
+
+<BaseLayout
+  title="CPA-Safe Claude Quickstart Pack"
+  description="Free opt-in style page for the CPA-Safe Claude Quickstart Pack with practical prompts and guardrails."
+>
+  <section class="hero-card">
+    <p class="eyebrow">Free Lead Magnet</p>
+    <h1>Steal 45 minutes back this week with 7 CPA-safe Claude prompts and a one-page review checklist.</h1>
+    <p class="hero-lead">
+      A free mini pack for solo CPAs and small firms that want practical Claude wins without gambling on confidentiality,
+      fake authority, or generic AI garbage.
+    </p>
+    <div class="hero-actions">
+      <a href="#opt-in" class="cta-button">Get the Free Quickstart Pack</a>
+    </div>
+  </section>
+
+  <MarketingSection
+    eyebrow="What Is Inside"
+    title="Quick wins with guardrails"
+  >
+    <div class="feature-grid">
+      <article>
+        <h3>7 Busy-Season Claude Prompts</h3>
+        <p>Use cases include client replies, missing-doc requests, recap cleanup, and internal handoff notes.</p>
+      </article>
+      <article>
+        <h3>One-Page Review Checklist</h3>
+        <p>A fast quality check to catch dangerous, sloppy, or client-confusing output.</p>
+      </article>
+      <article>
+        <h3>Red Flag Rules</h3>
+        <p>What not to paste, what to anonymize, and what always requires human review.</p>
+      </article>
+    </div>
+  </MarketingSection>
+
+  <MarketingSection
+    eyebrow="Who It Helps"
+    title="Built for actual firm pressure"
+    intro="Not theory. Not trend-chasing. Not AI theater."
+  >
+    <ul class="check-list">
+      <li>Solo CPAs and small tax firms</li>
+      <li>Owners and managers creating a sane AI workflow</li>
+      <li>Teams testing Claude but running it inconsistently</li>
+    </ul>
+  </MarketingSection>
+
+  <MarketingSection
+    eyebrow="Natural Next Step"
+    title="Free pack first. Full workflow system next."
+    intro="If the quickstart pack is useful, the paid Busy-Season Workflow Kit is the direct next move."
+  >
+    <p>
+      The free pack gives you 7 prompts and a checklist. The paid product gives you the full prompt vault,
+      workflow playbook, review system, rollout plan, and complete confidentiality guardrails.
+    </p>
+    <CtaButton href="/" label="See the Full Busy-Season Workflow Kit" variant="secondary" />
+  </MarketingSection>
+
+  <MarketingSection
+    id="opt-in"
+    className="opt-in-section"
+    eyebrow="Lead Form"
+    title="Get the CPA-Safe Claude Quickstart Pack"
+    intro="Drop your email and get the pack immediately, plus occasional practical notes for CPA-safe Claude usage."
+  >
+    <form class="opt-in-form" id="subscribe-form" novalidate>
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" />
+
+      <label for="email">Email <span aria-hidden="true">*</span></label>
+      <input id="email" name="email" type="email" placeholder="you@firm.com" required autocomplete="email" />
+
+      <button type="submit" id="subscribe-btn">Send Me the Free Pack</button>
+
+      <p class="form-feedback form-error" id="form-error" role="alert" hidden></p>
+    </form>
+
+    <div class="form-success" id="form-success" hidden>
+      <p class="form-success__msg">
+        Check your inbox — the pack is on its way. You can also download it directly:
+      </p>
+      <a id="direct-download" href="/downloads/cpa-safe-claude-quickstart-pack.zip" class="cta-button" download>
+        Download the Free Pack
+      </a>
+    </div>
+
+    <p class="form-note">No spam. Unsubscribe any time.</p>
+  </MarketingSection>
+</BaseLayout>
+
+<style>
+  .form-success:not([hidden]) {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .form-success__msg {
+    color: var(--ink-muted);
+  }
+
+  .form-feedback {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+  }
+
+  .form-error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+  }
+</style>
+
+<script>
+  const form = document.getElementById('subscribe-form') as HTMLFormElement | null;
+  const btn = document.getElementById('subscribe-btn') as HTMLButtonElement | null;
+  const errorEl = document.getElementById('form-error') as HTMLElement | null;
+  const successEl = document.getElementById('form-success') as HTMLElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!btn || !errorEl || !successEl) return;
+
+    const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+    const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
+
+    if (!email) {
+      errorEl.textContent = 'Please enter your email address.';
+      errorEl.hidden = false;
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    errorEl.hidden = true;
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, name }),
+      });
+
+      const data = await res.json() as { ok?: boolean; error?: string; downloadUrl?: string };
+
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error ?? 'Something went wrong. Please try again.');
+      }
+
+      form.hidden = true;
+      successEl.hidden = false;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+      errorEl.textContent = msg;
+      errorEl.hidden = false;
+      btn.disabled = false;
+      btn.textContent = 'Send Me the Free Pack';
+    }
+  });
+</script>

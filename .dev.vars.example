@@ -8,3 +8,13 @@ GITHUB_CLIENT_SECRET=your_github_client_secret
 # Basic Auth is enabled automatically when both vars are present
 BASIC_AUTH_USERNAME=reviewer
 BASIC_AUTH_PASSWORD=change_me
+
+# Email capture (functions/api/subscribe.ts)
+# Get a free Resend API key at https://resend.com
+# FROM_EMAIL must be from a domain you have verified in Resend
+RESEND_API_KEY=re_your_api_key_here
+FROM_EMAIL=hello@yourdomain.com
+SITE_URL=http://localhost:4321
+
+# Optional: Resend audience ID to build a contact list
+# RESEND_AUDIENCE_ID=your_audience_id_here
